@@ -32,7 +32,7 @@ public:
 	Game(const Game& obj) = delete;
 private:
 	sf::RenderWindow* m_window;
-	sf::Event event;
+	sf::Event m_event;
 
 	sf::Clock m_dt_clock;
 	float m_dt;

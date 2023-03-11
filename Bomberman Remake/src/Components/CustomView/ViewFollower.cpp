@@ -46,3 +46,8 @@ void ViewFollower::setLimits(sf::FloatRect limit_area)
 {
 	m_limit_area = limit_area;
 }
+
+const sf::FloatRect& ViewFollower::getLimits() const
+{
+	return m_limit_area;
+}

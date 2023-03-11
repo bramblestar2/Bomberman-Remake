@@ -4,6 +4,7 @@
 int main()
 {
 	Game::get()->run();
+
 	Game::get()->freeResources();
 
 	return 0;

@@ -11,6 +11,9 @@ Game::Game()
 
 	m_player_follower.follow(&temp.getPosition());
 	m_player_follower.setLimits(sf::FloatRect(sf::Vector2f(0,0), sf::Vector2f(1000,1500)));
+
+	m_event = sf::Event();
+	m_dt = 0;
 }
 
 Game::~Game()
@@ -38,9 +41,9 @@ void Game::update()
 
 void Game::updateEvents()
 {
-	while (m_window->pollEvent(event))
+	while (m_window->pollEvent(m_event))
 	{
-		if (event.type == sf::Event::Closed)
+		if (m_event.type == sf::Event::Closed)
 			m_window->close();
 	}
 }

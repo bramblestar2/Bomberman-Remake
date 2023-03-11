@@ -9,6 +9,7 @@ public:
 	void follow(const sf::Vector2f* position_ptr);
 	void update();
 	void setLimits(sf::FloatRect limit_area);
+	const sf::FloatRect& getLimits() const;
 
 private:
 	const sf::Vector2f* m_position_ptr;
