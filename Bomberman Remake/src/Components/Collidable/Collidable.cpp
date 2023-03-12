@@ -1,24 +1,83 @@
 #include "Collidable.h"
+#include <iostream>
 
 bool Collidable::check(Collidable& other)
 {
     return m_rect.intersects(other.m_rect);
 }
 
-bool Collidable::check(Collidable& other, sf::Vector2f& velocity)
+bool Collidable::check(Collidable& other, sf::Vector2f& v_correction, const sf::Vector2f& velocity)
 {
-    /* Horizontal Checks */
+    if (m_rect.intersects(other.m_rect))
+    {
+        float this_left = m_rect.left;
+        float this_right = m_rect.left + m_rect.width;
+        float this_top = m_rect.top;
+        float this_bottom = m_rect.top + m_rect.height;
 
-    //Check if left is less than left other.m_rect and if
-    //right of m_rect is greater than left other.m_rect
-    //If true, velocity.x should move to the left of m_rect
+        float other_left = other.m_rect.left;
+        float other_right = other.m_rect.left + other.m_rect.width;
+        float other_top = other.m_rect.top;
+        float other_bottom = other.m_rect.top + other.m_rect.height;
 
-    //Check if left is less than right other.m_rect and if
-    //right of m_rect is greater than right other.m_rect
-    //If true, velocity.x should move to the left of m_rect
+        auto lerp = [](float a, float b, float t) -> float
+        {
+            return a + t * (b - a);
+        };
 
-    /* Vertical Checks */
+        float time = 2.f;
 
+        if (velocity.x != 0)
+        {
+        /* Horizontal Checks */
+
+        //If should be left
+        //Check if left is less than left other.m_rect and if
+        //right of m_rect is greater than left other.m_rect
+        //If true, velocity.x should move to the left of m_rect
+            if (this_left < other_left && this_right > other_left)
+            {
+                //v_correction.x = lerp(v_correction.x, -(this_right - other_left) - 0.1, time);
+                v_correction.x = -(this_right - other_left) - 0.1;
+            }
+
+            //If should be right
+            //Check if left is less than right other.m_rect and if
+            //right of m_rect is greater than right other.m_rect
+            //If true, velocity.x should move to the left of m_rect
+            else if (this_left < other_right && this_right > other_right)
+            {
+                //v_correction.x = lerp(v_correction.x, -(this_left - other_right) + 0.1, time);
+                v_correction.x = -(this_left - other_right) + 0.1;
+            }
+        }
+        else if (velocity.y != 0)
+        {
+            /* Vertical Checks */
+
+            //If should be up
+            //Check if top is less than top other.m_rect and if
+            //bottom of m_rect is greater than top other.m_rect
+            //If true, velocity should move to the top of m_rect
+            if (this_top < other_top && this_bottom > other_top)
+            {
+                //v_correction.y = lerp(v_correction.y, -(this_bottom - other_top) - 0.1, time);
+                v_correction.y = -(this_bottom - other_top) - 0.1;
+            }
+
+            //If should be down
+            //Check if top is less than bottom other.m_rect and if
+            //bottom of m_rect is greater than bottom other.m_rect
+            //If true, velocity should move to the bottom of m_rect
+            else if (this_top < other_bottom && this_bottom > other_bottom)
+            {
+                //v_correction.y = lerp(v_correction.y, -(this_top - other_bottom) + 0.1, time);
+                v_correction.y = -(this_top - other_bottom) + 0.1;
+            }
+        }
+
+        return true;
+    }
 
     return false;
 }

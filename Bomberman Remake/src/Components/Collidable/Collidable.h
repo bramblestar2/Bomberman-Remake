@@ -10,7 +10,7 @@ public:
 
 	//Does the same as check(Collidable&), 
 	//but modifies the velocity accordingly
-	bool check(Collidable& other, sf::Vector2f& velocity);
+	bool check(Collidable& other, sf::Vector2f& correction, const sf::Vector2f& velocity);
 
 	const sf::FloatRect& getBounds() const;
 	sf::RectangleShape getVisualBounds();
