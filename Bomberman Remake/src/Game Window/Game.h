@@ -50,7 +50,7 @@ private:
 
 	ViewFollower m_player_follower;
 
-	TestTile test1, test2;
+	TestTile test1, test2, test3, test4;
 	sf::Vector2f test_velocity;
 
 	sf::RectangleShape temp;

@@ -8,7 +8,9 @@ Game::Game()
 {
 	m_window = new sf::RenderWindow(sf::VideoMode(750, 750), "Bomberman NES", sf::Style::Close | sf::Style::Titlebar);
 
-	m_player_follower.setLimits(sf::FloatRect(sf::Vector2f(0,0), sf::Vector2f(1000,1500)));
+	m_player_follower.follow(&test1.getPosition());
+	m_player_follower.setSize((sf::Vector2f)m_window->getSize());
+	m_player_follower.setLimits(sf::FloatRect(sf::Vector2f(0,0), sf::Vector2f(1500,1000)));
 
 	m_event = sf::Event();
 	m_dt = 0;
@@ -16,8 +18,15 @@ Game::Game()
 	test1.setSize({ 100,100 });
 	test1.setFillColor(sf::Color::Red);
 	test1.setPosition(200, 300);
+
 	test2.setSize({ 100,100 });
 	test2.setPosition(400, 400);
+
+	test3.setSize({ 100,100 });
+	test3.setPosition(600, 400);
+
+	test4.setSize({ 100,100 });
+	test4.setPosition(600, 600);
 }
 
 Game::~Game()
@@ -45,32 +54,34 @@ void Game::update()
 		return a + t * (b - a);
 	};
 
-	float speed = 100;
+	float speed = 200;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && test_velocity.x > -speed)
-		test_velocity += {-speed * m_dt, 0};
+		test_velocity = {-speed, test_velocity.y};
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && test_velocity.x < speed)
-		test_velocity += {speed * m_dt, 0};
+		test_velocity = {speed, test_velocity.y};
 	else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::A) && !sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
-		//test_velocity.x = lerp(test_velocity.x, 0, 0.5f);
 		test_velocity.x = 0;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && test_velocity.y > -speed)
-		test_velocity += {0, -speed * m_dt};
+		test_velocity = {test_velocity.x, -speed};
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && test_velocity.y < speed)
-		test_velocity += {0, speed* m_dt};
+		test_velocity = {test_velocity.x, speed};
 	else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::S) && !sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 	{
-		//test_velocity.y = lerp(test_velocity.y, 0, 0.5f);
 		test_velocity.y = 0;
 	}
 
 	test1.update();
 	test2.update();
+	test3.update();
+	test4.update();
 
 	//std::cout <<  << std::endl;
 	sf::Vector2f correction;
 	test1.check(test2, correction, test_velocity);
+	test1.check(test3, correction, test_velocity);
+	test1.check(test4, correction, test_velocity);
 	//std::cout << test_velocity.x << " - " << test_velocity.y << "\n";
 
 	test1.move(test_velocity.x * m_dt, test_velocity.y * m_dt);
@@ -96,6 +107,8 @@ void Game::render()
 	m_window->clear();
 	m_window->setView(m_player_follower);
 
+	m_window->draw(test4);
+	m_window->draw(test3);
 	m_window->draw(test2);
 	m_window->draw(test1);
 
