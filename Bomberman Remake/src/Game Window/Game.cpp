@@ -27,6 +27,9 @@ Game::Game()
 
 	test4.setSize({ 100,100 });
 	test4.setPosition(600, 600);
+
+	test5.setSize({ 100,100 });
+	test5.setPosition(400, 600);
 }
 
 Game::~Game()
@@ -76,12 +79,14 @@ void Game::update()
 	test2.update();
 	test3.update();
 	test4.update();
+	test5.update();
 
 	//std::cout <<  << std::endl;
 	sf::Vector2f correction;
 	test1.check(test2, correction, test_velocity);
 	test1.check(test3, correction, test_velocity);
 	test1.check(test4, correction, test_velocity);
+	test1.check(test5, correction, test_velocity);
 	//std::cout << test_velocity.x << " - " << test_velocity.y << "\n";
 
 	test1.move(test_velocity.x * m_dt, test_velocity.y * m_dt);
@@ -107,6 +112,7 @@ void Game::render()
 	m_window->clear();
 	m_window->setView(m_player_follower);
 
+	m_window->draw(test5);
 	m_window->draw(test4);
 	m_window->draw(test3);
 	m_window->draw(test2);
