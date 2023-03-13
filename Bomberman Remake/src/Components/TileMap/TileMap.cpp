@@ -23,25 +23,7 @@ TileMap::TileMap(const int width, const int height)
 
 TileMap::~TileMap()
 {
-	if (m_tile_map != nullptr)
-	{
-		for (int x = 0; x < m_map_size.x; x++)
-		{
-			if (m_tile_map[x] != nullptr)
-			{
-				for (int y = 0; y < m_map_size.y; y++)
-				{
-					if (m_tile_map[x][y] != nullptr)
-					{
-						delete m_tile_map[x][y];
-					}
-				}
-
-				delete[] m_tile_map[x];
-			}
-		}
-		delete[] m_tile_map;
-	}
+	freeResources();
 }
 
 sf::Vector2f TileMap::collision(Collidable& collidable)
@@ -81,10 +63,6 @@ sf::Vector2f TileMap::collision(Collidable& collidable)
 
 								if (collidable.check(*m_tile_map[x][y], correction, sf::Vector2f()))
 								{
-									//std::cout << correction.x << " - " << correction.y << std::endl;
-
-									//if (correction.x != 0 || correction.y != 0)
-									//	return correction;
 								}
 							}
 						}
@@ -123,7 +101,8 @@ void TileMap::setTile(const int x, const int y, TileTypes::ID type)
 	{
 		if (m_tile_map[x][y] != nullptr)
 		{
-			*m_tile_map[x][y] = Tile(x, y, type);
+			delete m_tile_map[x][y];
+			m_tile_map[x][y] = new Tile(x, y, type);
 		}
 	}
 }
@@ -147,4 +126,31 @@ Tile*** TileMap::getMap()
 const sf::Vector2i& TileMap::getSize()
 {
 	return m_map_size;
+}
+
+void TileMap::freeResources()
+{
+	if (m_tile_map != nullptr)
+	{
+		for (int x = 0; x < m_map_size.x; x++)
+		{
+			if (m_tile_map[x] != nullptr)
+			{
+				for (int y = 0; y < m_map_size.y; y++)
+				{
+					if (m_tile_map[x][y] != nullptr)
+					{
+						delete m_tile_map[x][y];
+					}
+				}
+
+				delete[] m_tile_map[x];
+			}
+		}
+		delete[] m_tile_map;
+	}
+
+	m_tile_map = nullptr;
+	m_map_size.x = 0;
+	m_map_size.y = 0;
 }

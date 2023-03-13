@@ -17,6 +17,8 @@ public:
 	static Tile*** getMap();
 	static const sf::Vector2i& getSize();
 private:
+	void freeResources();
+
 	static sf::Vector2i m_map_size;
 	static Tile*** m_tile_map;
 };

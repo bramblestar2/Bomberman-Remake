@@ -22,7 +22,6 @@ public:
 	const sf::Vector2f& getPosition() const;
 
 protected:
-	RectAnimation m_animation;
 	sf::RectangleShape m_sprite;
 
 	void setVelocity(const sf::Vector2f& velocity);

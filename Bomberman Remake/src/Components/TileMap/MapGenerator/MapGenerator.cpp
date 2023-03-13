@@ -81,3 +81,7 @@ void MapGenerator::randomBrickGeneration(int probability)
 						}
 					}
 }
+
+void MapGenerator::loadFromFile(const std::string file_path)
+{
+}

@@ -3,6 +3,7 @@
 Entity::Entity(int x, int y)
 {
 	m_sprite.setPosition(x * ENTITY_SIZE_X, y * ENTITY_SIZE_Y);
+	m_speed = 100;
 }
 
 void Entity::draw(sf::RenderTarget& target, sf::RenderStates& states)
@@ -18,6 +19,9 @@ const sf::Vector2f& Entity::getVelocity() const
 sf::Vector2f Entity::getTilePosition()
 {
 	sf::Vector2f pos = m_sprite.getPosition();
+	pos.x += m_sprite.getGlobalBounds().width / 2;
+	pos.y += m_sprite.getGlobalBounds().height / 2;
+
 	pos.x /= TILE_SIZE_X;
 	pos.y /= TILE_SIZE_Y;
 	pos.x = (int)pos.x;

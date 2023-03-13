@@ -26,14 +26,16 @@ bool Collidable::check(Collidable& other, sf::Vector2f& v_correction, const sf::
         float top_intersect = -(this_bottom - other_top) - 0.1;
         float bottom_intersect = -(this_top - other_bottom) + 0.1;
 
-        if (inter.height > 5 && inter.width < 5)
+        float c = 20;
+
+        if (inter.height > c && inter.width < c)
         {
             if (inter.left == other_left)
                 v_correction.x = left_intersect;
             else
                 v_correction.x = right_intersect;
         }
-        else if (inter.width > 5)
+        else if (inter.width > c)
         {
             if (inter.top == other_top)
                 v_correction.y = top_intersect;
