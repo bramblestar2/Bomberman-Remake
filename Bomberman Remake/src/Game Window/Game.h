@@ -1,6 +1,9 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "../Components/CustomView/ViewFollower.h"
+//#include "../Components/TileMap/TileMap.h"
+#include "../Components/TileMap/MapGenerator/MapGenerator.h"
+#include "../Components/Entity/Player/Player.h"
 
 class Game
 {
@@ -31,6 +34,10 @@ public:
 
 	Game(const Game& obj) = delete;
 private:
+	Player m_player;
+
+	TileMap m_map;
+
 	sf::RenderWindow* m_window;
 	sf::Event m_event;
 

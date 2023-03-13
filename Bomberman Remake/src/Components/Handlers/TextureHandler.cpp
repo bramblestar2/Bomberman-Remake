@@ -44,3 +44,11 @@ bool TextureHandler::remove(const std::string string_id)
 
     return false;
 }
+
+void TextureHandler::clear()
+{
+    for (auto textures : m_textures)
+    {
+        delete textures.second;
+    }
+}

@@ -22,7 +22,7 @@ void RectAnimation::apply(sf::Shape& shape)
 {
 	if (m_texture_ptr != nullptr && m_rects.size() != 0)
 	{
-		shape.setTexture(m_texture_ptr);
+		shape.setTexture(m_texture_ptr, true);
 		shape.setTextureRect(*m_rects.at(m_current_frame));
 	}
 }
