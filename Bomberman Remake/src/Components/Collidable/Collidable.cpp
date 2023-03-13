@@ -21,13 +21,6 @@ bool Collidable::check(Collidable& other, sf::Vector2f& v_correction, const sf::
         float other_top = other.m_rect.top;
         float other_bottom = other.m_rect.top + other.m_rect.height;
 
-        auto lerp = [](float a, float b, float t) -> float
-        {
-            return a + t * (b - a);
-        };
-
-        float time = 2.f;
-
         float left_intersect = -(this_right - other_left) - 0.1;
         float right_intersect = -(this_left - other_right) + 0.1;
         float top_intersect = -(this_bottom - other_top) - 0.1;

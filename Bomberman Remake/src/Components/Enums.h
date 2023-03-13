@@ -11,3 +11,18 @@ namespace TileTypes
 		POWERUP,
 	};
 }
+
+namespace PowerupTypes
+{
+	enum ID
+	{
+		BOMB_UP = 0,
+		FLAME_UP,
+		SPEED_UP,
+		WALL_PASS,
+		DETONATOR,
+		BOMB_PASS, 
+		FLAME_PASS, 
+		INVINCIBILITY
+	};
+}

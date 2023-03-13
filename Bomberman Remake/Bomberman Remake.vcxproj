@@ -141,7 +141,9 @@
   <ItemGroup>
     <ClCompile Include="src\Components\Animation\RectAnimation.cpp" />
     <ClCompile Include="src\Components\Collidable\Collidable.cpp" />
+    <ClCompile Include="src\Components\Entity\Entity.cpp" />
     <ClCompile Include="src\Components\Handlers\TextureHandler.cpp" />
+    <ClCompile Include="src\Components\TileMap\Tile\Tile.cpp" />
     <ClCompile Include="src\Game Window\Game.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Components\CustomView\ViewFollower.cpp" />
@@ -149,8 +151,10 @@
   <ItemGroup>
     <ClInclude Include="src\Components\Animation\RectAnimation.h" />
     <ClInclude Include="src\Components\Collidable\Collidable.h" />
+    <ClInclude Include="src\Components\Entity\Entity.h" />
     <ClInclude Include="src\Components\Enums.h" />
     <ClInclude Include="src\Components\Handlers\TextureHandler.h" />
+    <ClInclude Include="src\Components\TileMap\Tile\Tile.h" />
     <ClInclude Include="src\Game Window\Game.h" />
     <ClInclude Include="src\Components\CustomView\ViewFollower.h" />
   </ItemGroup>

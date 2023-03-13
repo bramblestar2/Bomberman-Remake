@@ -5,7 +5,7 @@
 class RectAnimation
 {
 public:
-	RectAnimation(sf::Texture* texture_ptr) : 
+	RectAnimation(sf::Texture* texture_ptr = nullptr) : 
 		m_texture_ptr(texture_ptr), m_current_frame(0)
 	{ }
 	~RectAnimation();
@@ -16,6 +16,7 @@ public:
 	void addFrame(sf::IntRect rect);
 	bool removeFrame(int index);
 
+	void setTexturePtr(sf::Texture* texture_ptr);
 	bool setCurrentFrame(int frame);
 	int nextFrame();
 	int previousFrame();

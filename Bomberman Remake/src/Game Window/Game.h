@@ -1,17 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "../Components/CustomView/ViewFollower.h"
-#include "../Components/Collidable/Collidable.h"
-
-class TestTile : public Collidable, public sf::RectangleShape
-{
-public:
-	void update()
-	{
-		updateRect(this->getGlobalBounds());
-	}
-};
-
 
 class Game
 {
@@ -49,9 +38,6 @@ private:
 	float m_dt;
 
 	ViewFollower m_player_follower;
-
-	TestTile test1, test2, test3, test4, test5;
-	sf::Vector2f test_velocity;
 
 	sf::RectangleShape temp;
 

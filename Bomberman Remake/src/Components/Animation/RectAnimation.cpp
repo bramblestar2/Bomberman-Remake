@@ -45,6 +45,11 @@ bool RectAnimation::removeFrame(int index)
 	return false;
 }
 
+void RectAnimation::setTexturePtr(sf::Texture* texture_ptr)
+{
+	m_texture_ptr = texture_ptr;
+}
+
 bool RectAnimation::setCurrentFrame(int frame)
 {
 	if (frame >= 0 && frame < m_rects.size())
