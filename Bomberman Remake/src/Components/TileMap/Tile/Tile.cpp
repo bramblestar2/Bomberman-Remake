@@ -1,9 +1,12 @@
 #include "Tile.h"
+#include "../TileMap.h"
+#include <iostream>
 
 Tile::Tile(const int x, const int y, const TileTypes::ID type)
 {
 	m_tile_type = type;
 	m_tile_position = sf::Vector2i(x, y);
+	m_has_destroyed_animation = false;
 
 	m_destroyed = false;
 	m_has_powerup = false;
@@ -21,6 +24,12 @@ Tile::Tile(const int x, const int y, const TileTypes::ID type)
 
 void Tile::draw(sf::RenderTarget& target, sf::RenderStates& states)
 {
+	if (m_destroyed)
+	{
+		Tile tile(getTilePosition().x, getTilePosition().y, TileTypes::ID::AIR);
+		tile.draw(target, states);
+	}
+
 	target.draw(m_sprite, states);
 }
 
@@ -36,13 +45,41 @@ void Tile::setHasPowerup(const bool has_powerup, const PowerupTypes::ID type)
 
 void Tile::destroy()
 {
-	if (!m_destructable)
-		m_destroyed = false;
+	if (m_destructable)
+	{
+		if (m_has_destroyed_animation && !m_destroyed)
+		{
+			TileMap::pushDestroyQueue((sf::Vector2f)getTilePosition());
+		}
+
+		m_destroyed = true;
+	}
 }
 
 void Tile::update()
 {
 	Collidable::updateRect(m_sprite.getGlobalBounds());
+
+	updateAnimation();
+}
+
+void Tile::updateAnimation()
+{
+	if (m_destroyed)
+	{
+		if (m_tile_type == TileTypes::ID::BRICK)
+		{
+			if (m_animation_clock.getElapsedTime().asSeconds() > 0.05 && 
+				m_animation.currentFrame() != m_animation.frames() - 1)
+			{
+				m_animation.nextFrame();
+				
+				m_animation.apply(m_sprite);
+
+				m_animation_clock.restart();
+			}
+		}
+	}
 }
 
 void Tile::getTextureByID()
@@ -57,6 +94,14 @@ void Tile::getTextureByID()
 		break;
 	case TileTypes::ID::BRICK:
 		m_animation.addFrame(sf::IntRect(16 * 1, 16 * 1, 16, 16));
+
+		for (int i = 0; i < 6; i++)
+		{
+			m_animation.addFrame(sf::IntRect(16 * i, 16 * 2, 16, 16));
+		}
+
+		m_has_destroyed_animation = true;
+
 		m_destructable = true;
 		break;
 	case TileTypes::ID::DOOR:

@@ -4,6 +4,7 @@
 
 Tile*** TileMap::m_tile_map;
 sf::Vector2i TileMap::m_map_size;
+std::vector<sf::Vector2f> TileMap::m_destroy_queue;
 
 TileMap::TileMap(const int width, const int height)
 {
@@ -95,6 +96,27 @@ void TileMap::draw(sf::RenderTarget& target, sf::RenderStates& states)
 	}
 }
 
+void TileMap::updateDestroyQueue()
+{
+	for (int i = 0; i < m_destroy_queue.size(); i++)
+	{
+		sf::Vector2f position = m_destroy_queue.at(i);
+
+		if (getTile(position.x, position.y)->hasDestroyedAnimation() &&
+			getTile(position.x, position.y)->hasAnimationFinished())
+		{
+			setTile(position.x, position.y, TileTypes::ID::AIR);
+			m_destroy_queue.erase(m_destroy_queue.begin());
+			i -= 1;
+		}
+	}
+}
+
+void TileMap::pushDestroyQueue(const sf::Vector2f& destroyed)
+{
+	m_destroy_queue.push_back(destroyed);
+}
+
 void TileMap::setTile(const int x, const int y, TileTypes::ID type)
 {
 	if (x >= 0 && x < m_map_size.x && y >= 0 && y < m_map_size.y)
@@ -102,8 +124,8 @@ void TileMap::setTile(const int x, const int y, TileTypes::ID type)
 		if (m_tile_map[x][y] != nullptr)
 		{
 			delete m_tile_map[x][y];
-			m_tile_map[x][y] = new Tile(x, y, type);
 		}
+		m_tile_map[x][y] = new Tile(x, y, type);
 	}
 }
 

@@ -5,7 +5,7 @@ Player::Player(int x, int y) : Entity(x, y)
 {
 	m_bomb_range = 1;
 	m_max_bombs = 5;
-	m_has_detonator = true;
+	m_has_detonator = false;
 
 	m_pass_through = false;
 
@@ -132,7 +132,7 @@ void Player::draw(sf::RenderTarget& target, sf::RenderStates& states)
 {
 	target.draw(Entity::m_sprite, states);
 
-	for (int i = 0; i < m_bomb_list.size(); i++)
+	for (int i = m_bomb_list.size()-1; i >= 0; i--)
 	{
 		m_bomb_list.at(i)->draw(target, states);
 	}

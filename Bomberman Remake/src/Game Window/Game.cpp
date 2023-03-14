@@ -15,8 +15,8 @@ Game::Game() : m_map(31, 13), m_player(1, 1)
 	m_event = sf::Event();
 	m_dt = 0;
 
-	//MapGenerator::noBrickGeneration();
-	MapGenerator::randomBrickGeneration(5);
+	MapGenerator::noBrickGeneration();
+	//MapGenerator::randomBrickGeneration(3);
 }
 
 Game::~Game()
@@ -44,9 +44,11 @@ void Game::update()
 		m_player.update(m_dt);
 
 		sf::Vector2f offset = m_map.collision(m_player);
-		offset.x /= 10;
-		offset.y /= 10;
+		//offset.x /= 1;
+		//offset.y /= 1;
 		m_player.move(offset);
+
+		TileMap::updateDestroyQueue();
 	}
 }
 
@@ -60,7 +62,7 @@ void Game::updateEvents()
 		{
 			if (m_event.key.code == sf::Keyboard::Space)
 			{
-				MapGenerator::randomBrickGeneration(5);
+				MapGenerator::randomBrickGeneration(3);
 			}
 		}
 

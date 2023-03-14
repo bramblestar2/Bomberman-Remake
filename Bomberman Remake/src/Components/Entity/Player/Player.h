@@ -27,6 +27,5 @@ private:
 	bool m_has_detonator;
 	bool m_pass_through;
 
-
 	std::vector<Bomb*> m_bomb_list;
 };

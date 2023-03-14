@@ -16,7 +16,8 @@ public:
 	const bool& hasExploded() const { return m_has_exploded; }
 	const bool& hasExplosionFinished() const { return m_explosion_ended; }
 	//Get tile positions that the explosion takes place on
-	std::vector<sf::Vector2f> getEffectedTiles();
+	std::vector<sf::Vector2f> getEffectedTiles(const bool change_distances = true);
+	bool isTileAffected(sf::Vector2f tile_position);
 
 private:
 	void updateBombAnimation();

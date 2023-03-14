@@ -52,7 +52,11 @@ void Bomb::explode()
 		TileTypes::ID type = TileMap::getTile(explos_pos.at(i).x, explos_pos.at(i).y)->getType();
 		if (type != TileTypes::ID::TILE && type != TileTypes::ID::AIR)
 		{
-			TileMap::setTile(explos_pos.at(i).x, explos_pos.at(i).y, TileTypes::ID::AIR);
+			//TileMap::setTile(explos_pos.at(i).x, explos_pos.at(i).y, TileTypes::ID::AIR);
+			TileMap::getTile(explos_pos.at(i).x, explos_pos.at(i).y)->destroy();
+			//if (TileMap::getTile(explos_pos.at(i).x, explos_pos.at(i).y)->hasDestroyedAnimation())
+			//{
+			//}
 		}
 	}
 }
@@ -88,7 +92,73 @@ void Bomb::draw(sf::RenderTarget& target, sf::RenderStates& states)
 
 		if (m_has_exploded)
 		{
+			sf::RectangleShape explosion_sprite;
+			explosion_sprite.setSize({ TILE_SIZE_X, TILE_SIZE_Y });
 
+			for (int i = 0; i < m_explosion_radius; i++)
+			{
+				int k = i + 1;
+
+				//Up explosion
+				if (i < m_exploded_radius[0])
+				{
+					sf::Vector2f up_position = { Entity::getPosition().x, Entity::getPosition().y - (TILE_SIZE_Y * k) };
+
+					explosion_sprite.setPosition(up_position);
+
+					if (i < m_exploded_radius[0] - 1)
+						m_vertical_explosion.apply(explosion_sprite);
+					else
+						m_up_explosion.apply(explosion_sprite);
+
+					target.draw(explosion_sprite, states);
+				}
+
+				//Right explosion
+				if (i < m_exploded_radius[1])
+				{
+					sf::Vector2f right_position = { Entity::getPosition().x + (TILE_SIZE_X * k), Entity::getPosition().y };
+
+					explosion_sprite.setPosition(right_position);
+
+					if (i < m_exploded_radius[1] - 1)
+						m_horizontal_explosion.apply(explosion_sprite);
+					else
+						m_right_explosion.apply(explosion_sprite);
+
+					target.draw(explosion_sprite, states);
+				}
+
+				//Down explosion
+				if (i < m_exploded_radius[2])
+				{
+					sf::Vector2f down_position = { Entity::getPosition().x, Entity::getPosition().y + (TILE_SIZE_Y * k) };
+
+					explosion_sprite.setPosition(down_position);
+
+					if (i < m_exploded_radius[2] - 1)
+						m_vertical_explosion.apply(explosion_sprite);
+					else
+						m_down_explosion.apply(explosion_sprite);
+
+					target.draw(explosion_sprite, states);
+				}
+				
+				//Left explosion
+				if (i < m_exploded_radius[3])
+				{
+					sf::Vector2f left_position = { Entity::getPosition().x - (TILE_SIZE_X * k), Entity::getPosition().y };
+
+					explosion_sprite.setPosition(left_position);
+
+					if (i < m_exploded_radius[3] - 1)
+						m_horizontal_explosion.apply(explosion_sprite);
+					else
+						m_left_explosion.apply(explosion_sprite);
+
+					target.draw(explosion_sprite, states);
+				}
+			}
 		}
 	}
 }
@@ -112,7 +182,7 @@ sf::Vector2f Bomb::collision(Collidable& collider)
 	}
 }
 
-std::vector<sf::Vector2f> Bomb::getEffectedTiles()
+std::vector<sf::Vector2f> Bomb::getEffectedTiles(const bool change_distances)
 {
 	std::vector<sf::Vector2f> explosion_positions;
 	sf::Vector2f bomb_pos = Entity::getTilePosition();
@@ -127,7 +197,8 @@ std::vector<sf::Vector2f> Bomb::getEffectedTiles()
 			if (TileMap::getTile(bomb_pos.x + (i + 1), bomb_pos.y)->getType() == TileTypes::ID::AIR)
 			{
 				explosion_positions.push_back(sf::Vector2f(bomb_pos.x + (i + 1), bomb_pos.y));
-				m_exploded_radius[1]++;
+				if (change_distances)
+					m_exploded_radius[1]++;
 			}
 			else
 			{
@@ -136,7 +207,8 @@ std::vector<sf::Vector2f> Bomb::getEffectedTiles()
 				if (TileMap::getTile(bomb_pos.x + (i + 1), bomb_pos.y)->isDestructable())
 				{
 					explosion_positions.push_back(sf::Vector2f(bomb_pos.x + (i + 1), bomb_pos.y));
-					m_exploded_radius[1]++;
+					if (change_distances)
+						m_exploded_radius[1]++;
 				}
 			}
 		}
@@ -145,7 +217,8 @@ std::vector<sf::Vector2f> Bomb::getEffectedTiles()
 			if (TileMap::getTile(bomb_pos.x - (i + 1), bomb_pos.y)->getType() == TileTypes::ID::AIR)
 			{
 				explosion_positions.push_back(sf::Vector2f(bomb_pos.x - (i + 1), bomb_pos.y));
-				m_exploded_radius[3]++;
+				if (change_distances)
+					m_exploded_radius[3]++;
 			}
 			else
 			{
@@ -154,7 +227,8 @@ std::vector<sf::Vector2f> Bomb::getEffectedTiles()
 				if (TileMap::getTile(bomb_pos.x - (i + 1), bomb_pos.y)->isDestructable())
 				{
 					explosion_positions.push_back(sf::Vector2f(bomb_pos.x - (i + 1), bomb_pos.y));
-					m_exploded_radius[3]++;
+					if (change_distances)
+						m_exploded_radius[3]++;
 				}
 			}
 		}
@@ -163,7 +237,8 @@ std::vector<sf::Vector2f> Bomb::getEffectedTiles()
 			if (TileMap::getTile(bomb_pos.x, bomb_pos.y + (i + 1))->getType() == TileTypes::ID::AIR)
 			{
 				explosion_positions.push_back(sf::Vector2f(bomb_pos.x, bomb_pos.y + (i + 1)));
-				m_exploded_radius[2]++;
+				if (change_distances)
+					m_exploded_radius[2]++;
 			}
 			else
 			{
@@ -172,7 +247,8 @@ std::vector<sf::Vector2f> Bomb::getEffectedTiles()
 				if (TileMap::getTile(bomb_pos.x, bomb_pos.y + (i + 1))->isDestructable())
 				{
 					explosion_positions.push_back(sf::Vector2f(bomb_pos.x, bomb_pos.y + (i + 1)));
-					m_exploded_radius[2]++;
+					if (change_distances)
+						m_exploded_radius[2]++;
 				}
 			}
 		}
@@ -181,7 +257,8 @@ std::vector<sf::Vector2f> Bomb::getEffectedTiles()
 			if (TileMap::getTile(bomb_pos.x, bomb_pos.y - (i + 1))->getType() == TileTypes::ID::AIR)
 			{
 				explosion_positions.push_back(sf::Vector2f(bomb_pos.x, bomb_pos.y - (i + 1)));
-				m_exploded_radius[0]++;
+				if (change_distances)
+					m_exploded_radius[0]++;
 			}
 			else
 			{
@@ -190,25 +267,27 @@ std::vector<sf::Vector2f> Bomb::getEffectedTiles()
 				if (TileMap::getTile(bomb_pos.x, bomb_pos.y - (i + 1))->isDestructable())
 				{
 					explosion_positions.push_back(sf::Vector2f(bomb_pos.x, bomb_pos.y - (i + 1)));
-					m_exploded_radius[0]++;
+					if (change_distances)
+						m_exploded_radius[0]++;
 				}
 			}
 		}
 	}
 
-	system("cls");
-	for (int i = 0; i < 4; i++)
-	{
-		std::cout << m_exploded_radius[i] << ", ";
-	}
-	std::cout << "\n";
-
-	for (int i = 0; i < explosion_positions.size(); i++)
-	{
-		std::cout << explosion_positions.at(i).x << " - " << explosion_positions.at(i).y << "\n";
-	}
-
 	return explosion_positions;
+}
+
+bool Bomb::isTileAffected(sf::Vector2f tile_position)
+{
+	std::vector<sf::Vector2f> affected = getEffectedTiles(false);
+
+	for (auto pos : affected)
+	{
+		if (tile_position == pos)
+			return true;
+	}
+
+	return false;
 }
 
 void Bomb::updateBombAnimation()

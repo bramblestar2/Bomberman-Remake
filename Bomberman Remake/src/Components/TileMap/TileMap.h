@@ -10,6 +10,8 @@ public:
 	sf::Vector2f collision(Collidable& collidable);
 
 	void draw(sf::RenderTarget& target, sf::RenderStates& states);
+	static void updateDestroyQueue();
+	static void pushDestroyQueue(const sf::Vector2f& destroyed);
 
 	static void setTile(const int x, const int y, TileTypes::ID type);
 
@@ -19,6 +21,8 @@ public:
 private:
 	void freeResources();
 
+	//To be destroyed
+	static std::vector<sf::Vector2f> m_destroy_queue;
 	static sf::Vector2i m_map_size;
 	static Tile*** m_tile_map;
 };
