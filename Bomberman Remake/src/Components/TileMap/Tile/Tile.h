@@ -4,7 +4,6 @@
 #include "../../Animation/RectAnimation.h"
 #include "../../Enums.h"
 #include "../../Handlers/TextureHandler.h"
-#include <iostream>
 
 #define TILE_SIZE_X 64
 #define TILE_SIZE_Y 64
@@ -16,21 +15,18 @@ public:
 
 	void draw(sf::RenderTarget& target, sf::RenderStates& states);
 	
-	void setType(const TileTypes::ID type);
+	virtual void setType(const TileTypes::ID type);
 	virtual void setHasPowerup(const bool has_powerup, 
 		const PowerupTypes::ID type);
 	void destroy();
-	void update();
+	virtual void update();
 
 	const sf::Vector2i& getTilePosition() const { return m_tile_position; }
 	const TileTypes::ID& getType() const { return m_tile_type; }
 	const bool& isDestroyed() const { return m_destroyed; }
 	const bool& isDestructable() const { return m_destructable; }
 	const bool& hasDestroyedAnimation() const { return m_has_destroyed_animation; }
-	const bool hasAnimationFinished() {
-		std::cout << m_animation.currentFrame() << " == " << m_animation.frames() - 1 << std::endl;
-		return (m_animation.currentFrame() == m_animation.frames() - 1); 
-	}
+	const bool& hasAnimationFinished() const { return (m_animation.currentFrame() == m_animation.frames() - 1); }
 protected:
 	virtual void updateAnimation();
 

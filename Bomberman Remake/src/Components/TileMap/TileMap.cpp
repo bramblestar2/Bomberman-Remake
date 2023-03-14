@@ -61,7 +61,6 @@ sf::Vector2f TileMap::collision(Collidable& collidable)
 
 							if (distance < TILE_SIZE_X * 2)
 							{
-
 								if (collidable.check(*m_tile_map[x][y], correction, sf::Vector2f()))
 								{
 								}

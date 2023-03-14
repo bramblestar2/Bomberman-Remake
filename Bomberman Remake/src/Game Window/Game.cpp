@@ -44,8 +44,6 @@ void Game::update()
 		m_player.update(m_dt);
 
 		sf::Vector2f offset = m_map.collision(m_player);
-		//offset.x /= 1;
-		//offset.y /= 1;
 		m_player.move(offset);
 
 		TileMap::updateDestroyQueue();
