@@ -44,6 +44,17 @@ Bomb::Bomb(const int x, const int y, const int radius,
 void Bomb::explode()
 {
 	m_has_exploded = true;
+
+	std::vector<sf::Vector2f> explos_pos = getEffectedTiles();
+
+	for (int i = 0; i < explos_pos.size(); i++)
+	{
+		TileTypes::ID type = TileMap::getTile(explos_pos.at(i).x, explos_pos.at(i).y)->getType();
+		if (type != TileTypes::ID::TILE && type != TileTypes::ID::AIR)
+		{
+			TileMap::setTile(explos_pos.at(i).x, explos_pos.at(i).y, TileTypes::ID::AIR);
+		}
+	}
 }
 
 void Bomb::update(const double dt)
@@ -67,6 +78,19 @@ void Bomb::update(const double dt)
 
 void Bomb::updateEvents(sf::Event& event)
 {
+}
+
+void Bomb::draw(sf::RenderTarget& target, sf::RenderStates& states)
+{
+	if (!m_explosion_ended)
+	{
+		target.draw(Entity::m_sprite);
+
+		if (m_has_exploded)
+		{
+
+		}
+	}
 }
 
 sf::Vector2f Bomb::collision(Collidable& collider)
@@ -100,20 +124,88 @@ std::vector<sf::Vector2f> Bomb::getEffectedTiles()
 	{
 		if (bomb_pos.x + (i + 1) < TileMap::getSize().x && !stop_right)
 		{
-			explosion_positions.push_back(sf::Vector2f(bomb_pos.x + (i + 1), bomb_pos.y));
+			if (TileMap::getTile(bomb_pos.x + (i + 1), bomb_pos.y)->getType() == TileTypes::ID::AIR)
+			{
+				explosion_positions.push_back(sf::Vector2f(bomb_pos.x + (i + 1), bomb_pos.y));
+				m_exploded_radius[1]++;
+			}
+			else
+			{
+				stop_right = true;
+
+				if (TileMap::getTile(bomb_pos.x + (i + 1), bomb_pos.y)->isDestructable())
+				{
+					explosion_positions.push_back(sf::Vector2f(bomb_pos.x + (i + 1), bomb_pos.y));
+					m_exploded_radius[1]++;
+				}
+			}
 		}
-		if (bomb_pos.x - (i + 1) > 0 && !stop_left)
+		if (bomb_pos.x - (i + 1) >= 0 && !stop_left)
 		{
-			explosion_positions.push_back(sf::Vector2f(bomb_pos.x - (i + 1), bomb_pos.y));
+			if (TileMap::getTile(bomb_pos.x - (i + 1), bomb_pos.y)->getType() == TileTypes::ID::AIR)
+			{
+				explosion_positions.push_back(sf::Vector2f(bomb_pos.x - (i + 1), bomb_pos.y));
+				m_exploded_radius[3]++;
+			}
+			else
+			{
+				stop_left = true;
+
+				if (TileMap::getTile(bomb_pos.x - (i + 1), bomb_pos.y)->isDestructable())
+				{
+					explosion_positions.push_back(sf::Vector2f(bomb_pos.x - (i + 1), bomb_pos.y));
+					m_exploded_radius[3]++;
+				}
+			}
 		}
 		if (bomb_pos.y + (i + 1) < TileMap::getSize().y && !stop_down)
 		{
-			explosion_positions.push_back(sf::Vector2f(bomb_pos.x, bomb_pos.y + (i + 1)));
+			if (TileMap::getTile(bomb_pos.x, bomb_pos.y + (i + 1))->getType() == TileTypes::ID::AIR)
+			{
+				explosion_positions.push_back(sf::Vector2f(bomb_pos.x, bomb_pos.y + (i + 1)));
+				m_exploded_radius[2]++;
+			}
+			else
+			{
+				stop_down = true;
+
+				if (TileMap::getTile(bomb_pos.x, bomb_pos.y + (i + 1))->isDestructable())
+				{
+					explosion_positions.push_back(sf::Vector2f(bomb_pos.x, bomb_pos.y + (i + 1)));
+					m_exploded_radius[2]++;
+				}
+			}
 		}
-		if (bomb_pos.y - (i + 1) > 0 && !stop_up)
+		if (bomb_pos.y - (i + 1) >= 0 && !stop_up)
 		{
-			explosion_positions.push_back(sf::Vector2f(bomb_pos.x, bomb_pos.y - (i + 1)));
+			if (TileMap::getTile(bomb_pos.x, bomb_pos.y - (i + 1))->getType() == TileTypes::ID::AIR)
+			{
+				explosion_positions.push_back(sf::Vector2f(bomb_pos.x, bomb_pos.y - (i + 1)));
+				m_exploded_radius[0]++;
+			}
+			else
+			{
+				stop_up = true;
+
+				if (TileMap::getTile(bomb_pos.x, bomb_pos.y - (i + 1))->isDestructable())
+				{
+					explosion_positions.push_back(sf::Vector2f(bomb_pos.x, bomb_pos.y - (i + 1)));
+					m_exploded_radius[0]++;
+				}
+			}
 		}
+	}
+
+	system("cls");
+	for (int i = 0; i < 4; i++)
+	{
+		std::cout << m_exploded_radius[i] << ", ";
+	}
+	std::cout << "\n";
+
+	for (int i = 0; i < explosion_positions.size(); i++)
+	{
+		std::cout << explosion_positions.at(i).x << " - " << explosion_positions.at(i).y << "\n";
 	}
 
 	return explosion_positions;
@@ -144,10 +236,13 @@ void Bomb::updateExplosionAnimation()
 		m_vertical_explosion.nextFrame();
 		m_horizontal_explosion.nextFrame();
 
+		m_center_explosion.apply(Entity::m_sprite);
+
 		m_bomb_clock.restart();
 	}
 	else
 	{
-		m_explosion_ended = true;
+		if (m_bomb_clock.getElapsedTime().asSeconds() > 0.1)
+			m_explosion_ended = true;
 	}
 }

@@ -3,7 +3,13 @@
 
 Player::Player(int x, int y) : Entity(x, y)
 {
-	Entity::m_sprite.setSize({ ENTITY_SIZE_X, ENTITY_SIZE_Y });
+	m_bomb_range = 1;
+	m_max_bombs = 5;
+	m_has_detonator = true;
+
+	m_pass_through = false;
+
+	Entity::m_sprite.setSize({ ENTITY_SIZE_X * 0.75, ENTITY_SIZE_Y });
 
 	m_up_walk.setTexturePtr(TextureHandler::get("player"));
 	m_right_walk.setTexturePtr(TextureHandler::get("player"));
@@ -26,6 +32,14 @@ Player::Player(int x, int y) : Entity(x, y)
 	m_right_key = sf::Keyboard::Right;
 	m_up_key = sf::Keyboard::Up;
 	m_down_key = sf::Keyboard::Down;
+}
+
+Player::~Player()
+{
+	for (auto bomb : m_bomb_list)
+	{
+		delete bomb;
+	}
 }
 
 void Player::move(const sf::Vector2f& velocity)
@@ -52,10 +66,76 @@ void Player::update(const double dt)
 	Collidable::updateRect(Entity::m_sprite.getGlobalBounds());
 
 	updateAnimation();
+
+	for (int i = 0; i < m_bomb_list.size(); i++)
+	{
+		m_bomb_list.at(i)->update(dt);
+
+		sf::Vector2f offset;
+		offset = m_bomb_list.at(i)->collision(*this);
+		this->move(offset);
+
+		if (m_bomb_list.at(i)->hasExplosionFinished())
+		{
+			delete m_bomb_list.at(i);
+			m_bomb_list.erase(m_bomb_list.begin() + i);
+		}
+	}
 }
 
 void Player::updateEvents(sf::Event& event)
 {
+	if (event.type == sf::Event::KeyPressed)
+	{
+		switch (event.key.code)
+		{
+		case sf::Keyboard::A:
+			if (m_bomb_list.size() < m_max_bombs)
+			{
+				bool bomb_already_exists = false;
+
+				for (int i = 0; i < m_bomb_list.size() && !bomb_already_exists; i++)
+				{
+					if (m_bomb_list.at(i)->getTilePosition() == Entity::getTilePosition())
+					{
+						bomb_already_exists = true;
+					}
+				}
+
+				if (!bomb_already_exists)
+					m_bomb_list.push_back(new Bomb(Entity::getTilePosition().x, Entity::getTilePosition().y, m_bomb_range, !m_has_detonator));
+			}
+			break;
+		case sf::Keyboard::B:
+			if (m_has_detonator)
+			{
+				if (m_bomb_list.size() > 0)
+				{
+					int explode_iterator = 0;
+
+					do
+					{
+						if (m_bomb_list.at(explode_iterator)->hasExploded() && explode_iterator < m_bomb_list.size()-1)
+							explode_iterator++;
+						else
+							m_bomb_list.at(explode_iterator)->explode();
+					} while (!m_bomb_list.at(explode_iterator)->hasExploded());
+
+				}
+			}
+			break;
+		}
+	}
+}
+
+void Player::draw(sf::RenderTarget& target, sf::RenderStates& states)
+{
+	target.draw(Entity::m_sprite, states);
+
+	for (int i = 0; i < m_bomb_list.size(); i++)
+	{
+		m_bomb_list.at(i)->draw(target, states);
+	}
 }
 
 void Player::updateAnimation()

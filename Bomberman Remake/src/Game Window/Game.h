@@ -35,7 +35,6 @@ public:
 	Game(const Game& obj) = delete;
 private:
 	Player m_player;
-	Bomb* m_bomb;
 
 	TileMap m_map;
 

@@ -53,18 +53,24 @@ void Tile::getTextureByID()
 	{
 	case TileTypes::ID::AIR:
 		m_animation.addFrame(sf::IntRect(16 * 6, 16 * 2, 16, 16));
+		m_destructable = false;
 		break;
 	case TileTypes::ID::BRICK:
 		m_animation.addFrame(sf::IntRect(16 * 1, 16 * 1, 16, 16));
+		m_destructable = true;
 		break;
 	case TileTypes::ID::DOOR:
 		m_animation.addFrame(sf::IntRect(16 * 2, 16 * 1, 16, 16));
+		m_destructable = false;
 		break;
 	case TileTypes::ID::POWERUP:
 		m_animation.addFrame(sf::IntRect(16 * 1, 16 * 1, 16, 16));
+		m_destructable = true;
+		m_has_powerup = true;
 		break;
 	case TileTypes::ID::TILE:
 		m_animation.addFrame(sf::IntRect(16 * 0, 16 * 1, 16, 16));
+		m_destructable = false;
 		break;
 	}
 

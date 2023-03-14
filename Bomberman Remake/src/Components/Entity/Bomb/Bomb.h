@@ -10,9 +10,11 @@ public:
 	void explode();
 	virtual void update(const double dt) override;
 	virtual void updateEvents(sf::Event& event) override;
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates& states) override;
 
 	sf::Vector2f collision(Collidable& collider);
 	const bool& hasExploded() const { return m_has_exploded; }
+	const bool& hasExplosionFinished() const { return m_explosion_ended; }
 	//Get tile positions that the explosion takes place on
 	std::vector<sf::Vector2f> getEffectedTiles();
 
@@ -30,7 +32,11 @@ private:
 	bool m_has_exploded;
 	bool m_explosion_ended;
 	bool m_has_timer;
+	//The radius the bomb will explode at
 	int m_explosion_radius;
+	//The radius the bomb can explode at for each direction
+	// [0] N -> [1] E -> [2] S -> [3] W
+	int m_exploded_radius[4]{0};
 
 	sf::Clock m_bomb_clock, m_detonation_clock;
 

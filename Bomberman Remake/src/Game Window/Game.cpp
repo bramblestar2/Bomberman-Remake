@@ -37,20 +37,15 @@ void Game::run()
 
 void Game::update()
 {
-	m_player_follower.update();
-
-	if (m_bomb != nullptr)
+	if (m_window->hasFocus())
 	{
-		m_bomb->update(m_dt);
-	}
-	m_player.update(m_dt);
-	
-	sf::Vector2f offset = m_map.collision(m_player);
-	m_player.move(offset);
+		m_player_follower.update();
 
-	if (m_bomb != nullptr)
-	{
-		offset = m_bomb->collision(m_player);
+		m_player.update(m_dt);
+
+		sf::Vector2f offset = m_map.collision(m_player);
+		offset.x /= 10;
+		offset.y /= 10;
 		m_player.move(offset);
 	}
 }
@@ -67,26 +62,9 @@ void Game::updateEvents()
 			{
 				MapGenerator::randomBrickGeneration(5);
 			}
-			else if (m_event.key.code == sf::Keyboard::A)
-			{
-				if (m_bomb != nullptr)
-					delete m_bomb;
-				m_bomb = new Bomb(m_player.getTilePosition().x, m_player.getTilePosition().y, 4);
-			}
-			else if (m_event.key.code == sf::Keyboard::B)
-			{
-				std::vector<sf::Vector2f> explos_pos = m_bomb->getEffectedTiles();
-
-				for (int i = 0; i < explos_pos.size(); i++)
-				{
-					TileTypes::ID type = TileMap::getTile(explos_pos.at(i).x, explos_pos.at(i).y)->getType();
-					if (type != TileTypes::ID::TILE && type != TileTypes::ID::AIR)
-					{
-						TileMap::setTile(explos_pos.at(i).x, explos_pos.at(i).y, TileTypes::ID::AIR);
-					}
-				}
-			}
 		}
+
+		m_player.updateEvents(m_event);
 	}
 }
 
@@ -103,9 +81,6 @@ void Game::render()
 
 	m_map.draw(*m_window, states);
 	m_player.draw(*m_window, states);
-
-	if (m_bomb != nullptr)
-		m_bomb->draw(*m_window, states);
 
 	m_window->display();
 }
