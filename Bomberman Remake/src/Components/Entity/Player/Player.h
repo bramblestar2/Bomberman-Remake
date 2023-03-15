@@ -4,15 +4,23 @@
 #include "../../Handlers/TextureHandler.h"
 #include "../Bomb/Bomb.h"
 
+/* The class for a User to control the player character in the game */
 class Player : public Entity
 {
 public:
+	/* Specify the X and Y tile position of the Player */
 	Player(int x, int y);
 	~Player();
 
+	/* Move the player at an offset */
 	void move(const sf::Vector2f& velocity);
+	/* Moves the player according to what key the user presses */
 	virtual void update(const double dt) override;
+	/* Updates the events of player */
+	/* Mainly for whether a bomb should be placed and */
+	/* if the player detonates the bomb if the player has a detonator */
 	virtual void updateEvents(sf::Event& event) override;
+	/* The draw method has been overriden due to the bombs needing to be drawn */
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates& states) override;
 
 private:

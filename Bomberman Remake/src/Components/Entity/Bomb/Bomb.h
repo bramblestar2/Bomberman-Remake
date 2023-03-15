@@ -2,21 +2,35 @@
 #include <vector>
 #include "../Entity.h"
 
+/* Bomb inherits from Entity class */
 class Bomb : public Entity
 {
 public:
+	/* Specify the X and Y tile position of the bomb */
+	/* Setting the explosion radius of the bomb is optional */
+	/* Setting whether the bomb has a set timer before it explodes is optional */
 	Bomb(const int x, const int y, const int radius = 1, const bool has_timer = true);
 
+	/* Explodes the bomb, setting the playing animation of the explosion to start */
+	/* Destroys the tiles that are in the affected range of the bomb */
 	void explode();
+	/* Updates the bombs animation */
+	/* Explodes after a set of time if there is a timer */
 	virtual void update(const double dt) override;
+	/* No events */
 	virtual void updateEvents(sf::Event& event) override;
+	/* Overrides the draw method of entity due to the explosion animation */
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates& states) override;
 
+	/* Returns the offset of where the collider should move to */
 	sf::Vector2f collision(Collidable& collider);
+	/* Returns true if the bomb has exploded */
 	const bool& hasExploded() const { return m_has_exploded; }
+	/* Returns true if the animation for the explosion has ended */
 	const bool& hasExplosionFinished() const { return m_explosion_ended; }
-	//Get tile positions that the explosion takes place on
+	/* Returns a list of what tile positions would be affected by the explosion */
 	std::vector<sf::Vector2f> getEffectedTiles(const bool change_distances = true);
+	/* Returns true if a tile position is in the range of the bomb */
 	bool isTileAffected(sf::Vector2f tile_position);
 
 private:

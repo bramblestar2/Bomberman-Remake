@@ -52,11 +52,7 @@ void Bomb::explode()
 		TileTypes::ID type = TileMap::getTile(explos_pos.at(i).x, explos_pos.at(i).y)->getType();
 		if (type != TileTypes::ID::TILE && type != TileTypes::ID::AIR)
 		{
-			//TileMap::setTile(explos_pos.at(i).x, explos_pos.at(i).y, TileTypes::ID::AIR);
 			TileMap::getTile(explos_pos.at(i).x, explos_pos.at(i).y)->destroy();
-			//if (TileMap::getTile(explos_pos.at(i).x, explos_pos.at(i).y)->hasDestroyedAnimation())
-			//{
-			//}
 		}
 	}
 }

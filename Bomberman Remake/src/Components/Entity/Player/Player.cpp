@@ -5,7 +5,7 @@ Player::Player(int x, int y) : Entity(x, y)
 {
 	m_bomb_range = 1;
 	m_max_bombs = 5;
-	m_has_detonator = true;
+	m_has_detonator = false;
 
 	m_pass_through = false;
 
