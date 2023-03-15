@@ -11,7 +11,7 @@ public:
 	bool check(Collidable& other);
 
 	//Does the same as check(Collidable&), 
-	//but modifies the velocity accordingly
+	//but modifies the correction/offset accordingly
 	bool check(Collidable& other, sf::Vector2f& correction, const sf::Vector2f& velocity);
 
 	/* Gets the bounds of the collider */

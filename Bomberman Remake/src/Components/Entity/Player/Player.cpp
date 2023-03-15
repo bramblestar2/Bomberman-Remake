@@ -9,7 +9,7 @@ Player::Player(int x, int y) : Entity(x, y)
 
 	m_pass_through = false;
 
-	Entity::m_sprite.setSize({ ENTITY_SIZE_X * 0.75, ENTITY_SIZE_Y });
+	Entity::m_sprite.setSize({ ENTITY_SIZE_X, ENTITY_SIZE_Y });
 
 	m_up_walk.setTexturePtr(TextureHandler::get("player"));
 	m_right_walk.setTexturePtr(TextureHandler::get("player"));
@@ -18,10 +18,10 @@ Player::Player(int x, int y) : Entity(x, y)
 
 	for (int i = 0; i < 3; i++)
 	{
-		m_left_walk.addFrame(sf::IntRect(12 * i, 16 * 0, 12, 16));
-		m_right_walk.addFrame(sf::IntRect(12 * i, 16 * 1, 12, 16));
-		m_down_walk.addFrame(sf::IntRect(12 * i, 16 * 2, 12, 16));
-		m_up_walk.addFrame(sf::IntRect(12 * i, 16 * 3, 12, 16));
+		m_left_walk.addFrame(sf::IntRect(16 * i, 16 * 0, 16, 16));
+		m_right_walk.addFrame(sf::IntRect(16 * i, 16 * 1, 16, 16));
+		m_down_walk.addFrame(sf::IntRect(16 * i, 16 * 2, 16, 16));
+		m_up_walk.addFrame(sf::IntRect(16 * i, 16 * 3, 16, 16));
 	}
 
 	m_down_walk.apply(Entity::m_sprite);
@@ -130,12 +130,12 @@ void Player::updateEvents(sf::Event& event)
 
 void Player::draw(sf::RenderTarget& target, sf::RenderStates& states)
 {
-	target.draw(Entity::m_sprite, states);
-
 	for (int i = m_bomb_list.size()-1; i >= 0; i--)
 	{
 		m_bomb_list.at(i)->draw(target, states);
 	}
+
+	target.draw(Entity::m_sprite, states);
 }
 
 void Player::updateAnimation()
