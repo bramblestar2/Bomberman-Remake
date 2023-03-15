@@ -3,6 +3,7 @@
 #include "../Entity.h"
 
 /* Bomb inherits from Entity class */
+/* When the bomb explodes, nearby tiles in the range of the explosion gets destroyed */
 class Bomb : public Entity
 {
 public:
