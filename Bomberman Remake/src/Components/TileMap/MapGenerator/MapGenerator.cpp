@@ -61,7 +61,8 @@ void MapGenerator::randomBrickGeneration(int probability)
 						{
 							if (rand() % probability == 0)
 							{
-								if (x % 2 == 0 || y % 2 == 0)
+								//if (x % 2 == 0 || y % 2 == 0)
+								if (x > 3 || y > 3)
 								{
 									delete tilemap[x][y];
 									tilemap[x][y] = new Tile(x, y, TileTypes::ID::BRICK);
@@ -82,6 +83,12 @@ void MapGenerator::randomBrickGeneration(int probability)
 					}
 }
 
+void MapGenerator::randomGenerator(int probability)
+{
+
+}
+
 void MapGenerator::loadFromFile(const std::string file_path)
 {
+
 }

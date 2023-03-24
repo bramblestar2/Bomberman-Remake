@@ -18,6 +18,7 @@ Bomb::Bomb(const int x, const int y, const int radius,
 	m_bomb_animation.setTexturePtr(TextureHandler::get("items"));
 	for (int i = 0; i < 3; i++)
 		m_bomb_animation.addFrame(sf::IntRect(16 * i, 16 * 0, 16, 16));
+	m_bomb_animation.addFrame(sf::IntRect(16 * 1, 16 * 0, 16, 16));
 
 	m_center_explosion.setTexturePtr(TextureHandler::get("explosion"));
 	m_up_explosion.setTexturePtr(TextureHandler::get("explosion"));
@@ -288,7 +289,7 @@ bool Bomb::isTileAffected(sf::Vector2f tile_position)
 
 void Bomb::updateBombAnimation()
 {
-	if (m_bomb_clock.getElapsedTime().asSeconds() > 0.1)
+	if (m_bomb_clock.getElapsedTime().asSeconds() > 0.2)
 	{
 		m_bomb_animation.nextFrame();
 

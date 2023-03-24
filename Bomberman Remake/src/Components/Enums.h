@@ -26,3 +26,14 @@ namespace PowerupTypes
 		INVINCIBILITY
 	};
 }
+
+namespace Directions
+{
+	enum Heading
+	{
+		NORTH = 0,
+		EAST,
+		SOUTH,
+		WEST,
+	};
+}

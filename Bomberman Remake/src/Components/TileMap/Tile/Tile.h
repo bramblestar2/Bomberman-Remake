@@ -34,6 +34,7 @@ public:
 	const bool& isDestructable() const { return m_destructable; }
 	const bool& hasDestroyedAnimation() const { return m_has_destroyed_animation; }
 	const bool& hasAnimationFinished() const { return (m_animation.currentFrame() == m_animation.frames() - 1); }
+	const bool& isPowerup() const { return m_has_powerup; }
 protected:
 	virtual void updateAnimation();
 

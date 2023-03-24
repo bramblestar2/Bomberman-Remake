@@ -12,8 +12,6 @@ public:
 	Player(int x, int y);
 	~Player();
 
-	/* Move the player at an offset */
-	void move(const sf::Vector2f& velocity);
 	/* Moves the player according to what key the user presses */
 	virtual void update(const double dt) override;
 	/* Updates the events of player */

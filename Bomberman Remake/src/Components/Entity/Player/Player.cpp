@@ -3,7 +3,7 @@
 
 Player::Player(int x, int y) : Entity(x, y)
 {
-	m_bomb_range = 1;
+	m_bomb_range = 2;
 	m_max_bombs = 5;
 	m_has_detonator = false;
 
@@ -26,7 +26,7 @@ Player::Player(int x, int y) : Entity(x, y)
 
 	m_down_walk.apply(Entity::m_sprite);
 
-	Entity::setSpeed(200);
+	Entity::setSpeed(250);
 
 	m_left_key = sf::Keyboard::Left;
 	m_right_key = sf::Keyboard::Right;
@@ -40,12 +40,6 @@ Player::~Player()
 	{
 		delete bomb;
 	}
-}
-
-void Player::move(const sf::Vector2f& velocity)
-{
-	Entity::m_sprite.move(velocity);
-	Collidable::updateRect(Entity::m_sprite.getGlobalBounds());
 }
 
 void Player::update(const double dt)

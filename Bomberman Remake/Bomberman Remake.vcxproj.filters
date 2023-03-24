@@ -89,5 +89,8 @@
     <ClInclude Include="src\Components\Entity\Bomb\Bomb.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Components\TileMap\Tile\Powerup\PowerUp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

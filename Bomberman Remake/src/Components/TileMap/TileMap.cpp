@@ -63,6 +63,7 @@ sf::Vector2f TileMap::collision(Collidable& collidable)
 							{
 								if (collidable.check(*m_tile_map[x][y], correction, sf::Vector2f()))
 								{
+									//std::cout << "COLLIDING\n";
 								}
 							}
 						}

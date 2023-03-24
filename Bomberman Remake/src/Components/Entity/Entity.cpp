@@ -11,6 +11,13 @@ void Entity::draw(sf::RenderTarget& target, sf::RenderStates& states)
 	target.draw(m_sprite, states);
 }
 
+void Entity::move(const sf::Vector2f& velocity)
+{
+	m_sprite.move(velocity);
+	Collidable::updateRect(m_sprite.getGlobalBounds());
+}
+
+
 const sf::Vector2f& Entity::getVelocity() const
 {
 	return m_velocity;

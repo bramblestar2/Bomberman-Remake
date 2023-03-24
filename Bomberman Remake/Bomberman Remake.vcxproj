@@ -162,6 +162,7 @@
     <ClInclude Include="src\Components\Handlers\TextureHandler.h" />
     <ClInclude Include="src\Components\TileMap\MapGenerator\MapGenerator.h" />
     <ClInclude Include="src\Components\TileMap\TileMap.h" />
+    <ClInclude Include="src\Components\TileMap\Tile\Powerup\PowerUp.h" />
     <ClInclude Include="src\Components\TileMap\Tile\Tile.h" />
     <ClInclude Include="src\Game Window\Game.h" />
     <ClInclude Include="src\Components\CustomView\ViewFollower.h" />

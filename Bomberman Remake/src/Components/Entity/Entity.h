@@ -20,6 +20,9 @@ public:
 	/* virtual method that can be redefined to be drawn in a different way */
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates& states);
 
+	/* Move the entity at an offset */
+	void move(const sf::Vector2f& velocity);
+
 	/* Returns the velocity of the Entity */
 	const sf::Vector2f& getVelocity() const;
 	/* Returns the speed of the Entity */
