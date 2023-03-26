@@ -27,7 +27,7 @@
     <ClCompile Include="src\Components\Animation\RectAnimation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Components\Handlers\TextureHandler.cpp">
+    <ClCompile Include="src\Components\Handlers\TextureHandler\TextureHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Components\Collidable\Collidable.cpp">
@@ -62,7 +62,7 @@
     <ClInclude Include="src\Components\CustomView\ViewFollower.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Components\Handlers\TextureHandler.h">
+    <ClInclude Include="src\Components\Handlers\TextureHandler\TextureHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Components\Animation\RectAnimation.h">

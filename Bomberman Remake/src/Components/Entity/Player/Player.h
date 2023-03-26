@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include "../Entity.h"
-#include "../../Handlers/TextureHandler.h"
+#include "../../Handlers/TextureHandler/TextureHandler.h"
 #include "../Bomb/Bomb.h"
 
 /* The class for a User to control the player character in the game */

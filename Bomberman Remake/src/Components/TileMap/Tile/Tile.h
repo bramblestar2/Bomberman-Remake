@@ -3,7 +3,7 @@
 #include "../../Collidable/Collidable.h"
 #include "../../Animation/RectAnimation.h"
 #include "../../Enums.h"
-#include "../../Handlers/TextureHandler.h"
+#include "../../Handlers/TextureHandler/TextureHandler.h"
 
 #define TILE_SIZE_X 64
 #define TILE_SIZE_Y 64

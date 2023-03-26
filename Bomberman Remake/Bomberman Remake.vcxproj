@@ -145,7 +145,7 @@
     <ClCompile Include="src\Components\Entity\Enemy\Enemy.cpp" />
     <ClCompile Include="src\Components\Entity\Entity.cpp" />
     <ClCompile Include="src\Components\Entity\Player\Player.cpp" />
-    <ClCompile Include="src\Components\Handlers\TextureHandler.cpp" />
+    <ClCompile Include="src\Components\Handlers\TextureHandler\TextureHandler.cpp" />
     <ClCompile Include="src\Components\TileMap\MapGenerator\MapGenerator.cpp" />
     <ClCompile Include="src\Components\TileMap\TileMap.cpp" />
     <ClCompile Include="src\Components\TileMap\Tile\Tile.cpp" />
@@ -161,7 +161,7 @@
     <ClInclude Include="src\Components\Entity\Entity.h" />
     <ClInclude Include="src\Components\Entity\Player\Player.h" />
     <ClInclude Include="src\Components\Enums.h" />
-    <ClInclude Include="src\Components\Handlers\TextureHandler.h" />
+    <ClInclude Include="src\Components\Handlers\TextureHandler\TextureHandler.h" />
     <ClInclude Include="src\Components\TileMap\MapGenerator\MapGenerator.h" />
     <ClInclude Include="src\Components\TileMap\TileMap.h" />
     <ClInclude Include="src\Components\TileMap\Tile\Powerup\PowerUp.h" />
