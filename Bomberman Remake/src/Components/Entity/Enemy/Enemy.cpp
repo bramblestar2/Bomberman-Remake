@@ -8,18 +8,18 @@ Enemy::Enemy(int x, int y) : Entity(x, y)
 
 void Enemy::update(const double dt)
 {
+	movementLogic();
 }
 
 void Enemy::updateEvents(sf::Event& event)
 {
 }
 
-void Enemy::draw(sf::RenderTarget& target, sf::RenderStates& states)
-{
-}
-
 void Enemy::movementLogic()
 {
+	bool turned = false;
+	int random = rand() % 10;
+
 }
 
 bool Enemy::canMoveForward()

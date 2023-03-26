@@ -1,5 +1,7 @@
 #include "EntityHandler.h"
 
+std::unordered_map<std::string, std::vector<Entity*>> EntityHandler::m_entities;
+
 std::vector<Entity*>* EntityHandler::getList(const std::string id)
 {
     auto find_id = m_entities.find(id);

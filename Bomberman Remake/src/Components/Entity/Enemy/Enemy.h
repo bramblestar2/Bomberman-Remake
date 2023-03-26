@@ -11,7 +11,7 @@ public:
 
 	virtual void updateEvents(sf::Event& event) override;
 
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates& states) override;
+	//virtual void draw(sf::RenderTarget& target, sf::RenderStates& states) override;
 
 protected:
 	virtual void movementLogic();
