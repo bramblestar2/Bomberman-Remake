@@ -4,7 +4,6 @@
 class Valcom : Enemy
 {
 public:
-	Valcom();
 
 private:
 };

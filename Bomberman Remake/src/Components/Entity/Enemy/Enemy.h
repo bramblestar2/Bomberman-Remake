@@ -2,7 +2,7 @@
 #include "../Entity.h"
 #include "../../Enums.h"
 
-class Enemy : Entity
+class Enemy : public Entity
 {
 public:
 	Enemy(int x, int y);
@@ -11,7 +11,9 @@ public:
 
 	virtual void updateEvents(sf::Event& event) override;
 
-	//virtual void draw(sf::RenderTarget& target, sf::RenderStates& states) override;
+	const bool& isDead() const { return m_dead; }
+
+	void kill() { m_dead = true; }
 
 protected:
 	virtual void movementLogic();
@@ -35,4 +37,7 @@ private:
 	bool m_entered_tile;
 	//Previous tile position
 	sf::Vector2i m_previous_tile;
+
+	//If the enemy is dead or not
+	bool m_dead;
 };

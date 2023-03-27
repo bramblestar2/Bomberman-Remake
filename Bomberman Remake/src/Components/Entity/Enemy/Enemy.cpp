@@ -6,6 +6,7 @@ Enemy::Enemy(int x, int y) : Entity(x, y)
 	m_heading_direction = Directions::EAST;
 
 	m_entered_tile = true;
+	m_dead = false;
 
 	m_previous_tile = { x, y };
 }
@@ -22,6 +23,8 @@ void Enemy::update(const double dt)
 		m_entered_tile = false;
 
 	movementLogic();
+
+	updateAnimation();
 }
 
 void Enemy::updateEvents(sf::Event& event)
@@ -64,9 +67,7 @@ bool Enemy::canMoveForward()
 {
 	sf::Vector2i enemy_position = (sf::Vector2i)Entity::getTilePosition();
 
-	int direction = m_heading_direction;
-
-	sf::Vector2i to_check = getCheckPos((Directions::Heading)direction, enemy_position);
+	sf::Vector2i to_check = getCheckPos(m_heading_direction, enemy_position);
 
 	if (TileMap::getTile(to_check.x, to_check.y)->getType() == TileTypes::AIR)
 	{
