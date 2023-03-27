@@ -29,4 +29,10 @@ private:
 	sf::Vector2i getCheckPos(Directions::Heading direction, sf::Vector2i position);
 
 	Directions::Heading m_heading_direction;
+
+	//Should be true when the enemy has entered a new tile
+	//and should be false when it hasnt entered a new tile
+	bool m_entered_tile;
+	//Previous tile position
+	sf::Vector2i m_previous_tile;
 };

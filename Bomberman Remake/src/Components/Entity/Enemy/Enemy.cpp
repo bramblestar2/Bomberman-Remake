@@ -3,11 +3,24 @@
 
 Enemy::Enemy(int x, int y) : Entity(x, y)
 {
-	m_heading_direction = Directions::SOUTH;
+	m_heading_direction = Directions::EAST;
+
+	m_entered_tile = true;
+
+	m_previous_tile = { x, y };
 }
 
 void Enemy::update(const double dt)
 {
+	//If enemy has entered new tile, set to true
+	if (!m_entered_tile && m_previous_tile != (sf::Vector2i)getTilePosition())
+	{
+		m_previous_tile = (sf::Vector2i)getTilePosition();
+		m_entered_tile = true;
+	}
+	else
+		m_entered_tile = false;
+
 	movementLogic();
 }
 
@@ -17,9 +30,34 @@ void Enemy::updateEvents(sf::Event& event)
 
 void Enemy::movementLogic()
 {
-	bool turned = false;
-	int random = rand() % 10;
+	if (m_entered_tile)
+	{
+		int random = rand() % 10;
 
+		if (!canMoveForward())
+		{
+			turnRight();
+			turnRight();
+		}
+
+		/* 10% chance to turn */
+		if (random == 0)
+		{
+			bool turned = false;
+
+			if (canMoveRight())
+			{
+				turnRight();
+				turned = true;
+			}
+
+			if (canMoveLeft() && !turned)
+			{
+				turnLeft();
+				turned = true;
+			}
+		}
+	}
 }
 
 bool Enemy::canMoveForward()

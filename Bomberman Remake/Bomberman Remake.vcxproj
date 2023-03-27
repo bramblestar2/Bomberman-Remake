@@ -159,6 +159,8 @@
     <ClInclude Include="src\Components\Collidable\Collidable.h" />
     <ClInclude Include="src\Components\Entity\Bomb\Bomb.h" />
     <ClInclude Include="src\Components\Entity\Enemy\Enemy.h" />
+    <ClInclude Include="src\Components\Entity\Enemy\ONeal\ONeal.h" />
+    <ClInclude Include="src\Components\Entity\Enemy\Valcom\Valcom.h" />
     <ClInclude Include="src\Components\Entity\Entity.h" />
     <ClInclude Include="src\Components\Entity\Player\Player.h" />
     <ClInclude Include="src\Components\Enums.h" />
