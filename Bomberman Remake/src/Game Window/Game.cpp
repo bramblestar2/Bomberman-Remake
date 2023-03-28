@@ -4,9 +4,10 @@
 
 Game* Game::m_instance;
 
-Game::Game() : m_map(31, 13), m_player(1, 1)
+Game::Game() : m_map(31, 13), m_player(1, 1), m_enemy(1, 1)
 {
 	m_window = new sf::RenderWindow(sf::VideoMode(750, 750), "Bomberman NES", sf::Style::Close | sf::Style::Titlebar);
+	m_window->setMouseCursorVisible(false);
 	
 	m_player_follower.follow(&m_player.getPosition());
 	m_player_follower.setSize((sf::Vector2f)m_window->getSize());
@@ -15,8 +16,8 @@ Game::Game() : m_map(31, 13), m_player(1, 1)
 	m_event = sf::Event();
 	m_dt = 0;
 
-	MapGenerator::noBrickGeneration();
-	//MapGenerator::randomBrickGeneration(3);
+	//MapGenerator::noBrickGeneration();
+	MapGenerator::randomBrickGeneration(3);
 }
 
 Game::~Game()
@@ -46,6 +47,8 @@ void Game::update()
 		sf::Vector2f offset = m_map.collision(m_player);
 		m_player.move(offset);
 
+		m_enemy.update(m_dt);
+
 		TileMap::updateDestroyQueue();
 	}
 }
@@ -65,6 +68,7 @@ void Game::updateEvents()
 		}
 
 		m_player.updateEvents(m_event);
+		m_enemy.updateEvents(m_event);
 	}
 }
 
@@ -80,7 +84,9 @@ void Game::render()
 	sf::RenderStates states;
 
 	m_map.draw(*m_window, states);
+
 	m_player.draw(*m_window, states);
+	m_enemy.draw(*m_window, states);
 
 	m_window->display();
 }

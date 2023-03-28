@@ -1,22 +1,37 @@
 #include "Enemy.h"
 #include "../../TileMap/TileMap.h"
+#include <iostream>
+#include <time.h>
 
 Enemy::Enemy(int x, int y) : Entity(x, y)
 {
+	srand(time(NULL));
+
 	m_heading_direction = Directions::EAST;
 
 	m_entered_tile = true;
 	m_dead = false;
 
 	m_previous_tile = { x, y };
+
+	Entity::setSpeed(100);
+
+	Entity::m_sprite.setSize({ ENTITY_SIZE_X, ENTITY_SIZE_Y });
 }
 
 void Enemy::update(const double dt)
 {
 	//If enemy has entered new tile, set to true
-	if (!m_entered_tile && m_previous_tile != (sf::Vector2i)getTilePosition())
+	sf::Vector2f pos = Entity::m_sprite.getPosition();
+
+	pos.x /= TILE_SIZE_X;
+	pos.y /= TILE_SIZE_Y;
+	pos.x = (int)pos.x;
+	pos.y = (int)pos.y;
+
+	if (!m_entered_tile && m_previous_tile != (sf::Vector2i)pos)
 	{
-		m_previous_tile = (sf::Vector2i)getTilePosition();
+		m_previous_tile = (sf::Vector2i)pos;
 		m_entered_tile = true;
 	}
 	else
@@ -24,7 +39,14 @@ void Enemy::update(const double dt)
 
 	movementLogic();
 
+	sf::Vector2i velocity = getCheckPos(m_heading_direction, sf::Vector2i());
+	Entity::setVelocity(sf::Vector2f(velocity.x * Entity::getSpeed(), 
+									 velocity.y * Entity::getSpeed()));
+	Entity::m_sprite.move(Entity::getVelocity().x * dt, Entity::getVelocity().y * dt);
+
 	updateAnimation();
+
+	Collidable::updateRect(Entity::m_sprite.getGlobalBounds());
 }
 
 void Enemy::updateEvents(sf::Event& event)
@@ -43,22 +65,33 @@ void Enemy::movementLogic()
 			turnRight();
 		}
 
-		/* 10% chance to turn */
-		if (random == 0)
+		/* 30% chance to turn */
+		if (random < 3)
 		{
-			bool turned = false;
+			bool canTurnLeft = false; 
+			bool canTurnRight = false; 
 
 			if (canMoveRight())
-			{
-				turnRight();
-				turned = true;
-			}
+				canTurnRight = true;
+			if (canMoveLeft())
+				canTurnLeft = true;
 
-			if (canMoveLeft() && !turned)
+			if (canTurnLeft && canTurnRight)
 			{
-				turnLeft();
-				turned = true;
+				switch (rand() % 2)
+				{
+				case 0: //Left turn
+					turnLeft();
+					break;
+				case 1: //Right turn
+					turnRight();
+					break;
+				}
 			}
+			else if (canTurnLeft)
+				turnLeft();
+			else if (canTurnRight)
+				turnRight();
 		}
 	}
 }

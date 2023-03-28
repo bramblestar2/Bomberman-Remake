@@ -5,6 +5,8 @@
 #include "../Components/Entity/Player/Player.h"
 #include "../Components/Entity/Bomb/Bomb.h"
 
+#include "../Components/Entity/Enemy/ONeal/ONeal.h"
+
 /* This class is a Singleton class so there is only one instance of it */
 /* Handles all of the elements for the game, such as the level, tiles, entities, etc */
 class Game
@@ -37,6 +39,8 @@ public:
 	Game(const Game& obj) = delete;
 private:
 	Player m_player;
+
+	ONeal m_enemy;
 
 	TileMap m_map;
 
