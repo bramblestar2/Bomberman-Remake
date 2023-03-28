@@ -7,7 +7,7 @@ Game* Game::m_instance;
 Game::Game() : m_map(31, 13), m_player(1, 1), m_enemy(1, 1)
 {
 	m_window = new sf::RenderWindow(sf::VideoMode(750, 750), "Bomberman NES", sf::Style::Close | sf::Style::Titlebar);
-	m_window->setMouseCursorVisible(false);
+	//m_window->setMouseCursorVisible(false);
 	
 	m_player_follower.follow(&m_player.getPosition());
 	m_player_follower.setSize((sf::Vector2f)m_window->getSize());
@@ -40,6 +40,9 @@ void Game::update()
 {
 	if (m_window->hasFocus())
 	{
+		if (m_dt > 5)
+			m_dt = 0.01;
+
 		m_player_follower.update();
 
 		m_player.update(m_dt);
@@ -51,9 +54,10 @@ void Game::update()
 
 		for (const auto bomb : m_player.getBombs())
 		{
-			sf::Vector2f offset;
-			m_enemy.check(*bomb, offset, sf::Vector2f());
-			m_enemy.move(offset);
+			m_enemy.bombCollision(bomb);
+			//sf::Vector2f offset;
+			//m_enemy.check(*bomb, offset, sf::Vector2f());
+			//m_enemy.move(offset);
 		}
 
 		TileMap::updateDestroyQueue();

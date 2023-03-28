@@ -5,7 +5,7 @@ Player::Player(int x, int y) : Entity(x, y)
 {
 	m_bomb_range = 2;
 	m_max_bombs = 5;
-	m_has_detonator = false;
+	m_has_detonator = true;
 
 	m_pass_through = false;
 
@@ -26,7 +26,7 @@ Player::Player(int x, int y) : Entity(x, y)
 
 	m_down_walk.apply(Entity::m_sprite);
 
-	Entity::setSpeed(250);
+	Entity::setSpeed(200);
 
 	m_left_key = sf::Keyboard::Left;
 	m_right_key = sf::Keyboard::Right;

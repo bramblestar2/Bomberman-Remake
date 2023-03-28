@@ -53,6 +53,49 @@ void Enemy::updateEvents(sf::Event& event)
 {
 }
 
+void Enemy::bombCollision(Bomb* bomb)
+{
+	sf::Vector2f offset;
+
+	if (Collidable::check(*bomb, offset, sf::Vector2f()))
+	{
+		if (abs(offset.x) > 0.1 || abs(offset.y) > 0.1)
+		{
+			bool canTurnLeft = false;
+			bool canTurnRight = false;
+
+			if (canMoveRight())
+				canTurnRight = true;
+			if (canMoveLeft())
+				canTurnLeft = true;
+
+			if (canTurnLeft && canTurnRight)
+			{
+				switch (rand() % 2)
+				{
+				case 0: //Left turn
+					turnLeft();
+					break;
+				case 1: //Right turn
+					turnRight();
+					break;
+				}
+			}
+			else if (canTurnLeft)
+				turnLeft();
+			else if (canTurnRight)
+				turnRight();
+			else if (canMoveBackward())
+			{
+				turnRight();
+				turnRight();
+			}
+
+			Entity::move(offset);
+		}
+	}
+}
+
 void Enemy::movementLogic()
 {
 	if (m_entered_tile)
@@ -101,10 +144,15 @@ bool Enemy::canMoveForward()
 	sf::Vector2i enemy_position = (sf::Vector2i)Entity::getTilePosition();
 
 	sf::Vector2i to_check = getCheckPos(m_heading_direction, enemy_position);
+	
+	Tile* tile = TileMap::getTile(to_check.x, to_check.y);
 
-	if (TileMap::getTile(to_check.x, to_check.y)->getType() == TileTypes::AIR)
+	if (tile != nullptr)
 	{
-		return true;
+		if (tile->getType() == TileTypes::AIR)
+		{
+			return true;
+		}
 	}
 
 	return false;
@@ -124,9 +172,14 @@ bool Enemy::canMoveLeft()
 
 	sf::Vector2i to_check = getCheckPos((Directions::Heading)direction, enemy_position);
 
-	if (TileMap::getTile(to_check.x, to_check.y)->getType() == TileTypes::AIR)
+	Tile* tile = TileMap::getTile(to_check.x, to_check.y);
+
+	if (tile != nullptr)
 	{
-		return true;
+		if (tile->getType() == TileTypes::AIR)
+		{
+			return true;
+		}
 	}
 
 	return false;
@@ -145,9 +198,37 @@ bool Enemy::canMoveRight()
 
 	sf::Vector2i to_check = getCheckPos((Directions::Heading)direction, enemy_position);
 
-	if (TileMap::getTile(to_check.x, to_check.y)->getType() == TileTypes::AIR)
+	Tile* tile = TileMap::getTile(to_check.x, to_check.y);
+
+	if (tile != nullptr)
 	{
-		return true;
+		if (tile->getType() == TileTypes::AIR)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool Enemy::canMoveBackward()
+{
+	sf::Vector2i enemy_position = (sf::Vector2i)Entity::getTilePosition();
+
+	int direction = m_heading_direction;
+	
+	direction = (Directions::Heading)(direction + 2 % 4);
+
+	sf::Vector2i to_check = getCheckPos((Directions::Heading)direction, enemy_position);
+
+	Tile* tile = TileMap::getTile(to_check.x, to_check.y);
+
+	if (tile != nullptr)
+	{
+		if (tile->getType() == TileTypes::AIR)
+		{
+			return true;
+		}
 	}
 
 	return false;

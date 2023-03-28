@@ -39,7 +39,6 @@ public:
 	Game(const Game& obj) = delete;
 private:
 	Player m_player;
-
 	ONeal m_enemy;
 
 	TileMap m_map;
