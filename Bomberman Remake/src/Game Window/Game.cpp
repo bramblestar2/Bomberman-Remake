@@ -49,6 +49,13 @@ void Game::update()
 
 		m_enemy.update(m_dt);
 
+		for (const auto bomb : m_player.getBombs())
+		{
+			sf::Vector2f offset;
+			m_enemy.check(*bomb, offset, sf::Vector2f());
+			m_enemy.move(offset);
+		}
+
 		TileMap::updateDestroyQueue();
 	}
 }

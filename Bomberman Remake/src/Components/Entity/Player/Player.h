@@ -21,6 +21,8 @@ public:
 	/* The draw method has been overriden due to the bombs needing to be drawn */
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates& states) override;
 
+	const std::vector<Bomb*>& getBombs() const { return m_bomb_list; }
+
 private:
 	void updateAnimation();
 	sf::Clock m_animation_clock;
