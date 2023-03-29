@@ -24,6 +24,7 @@ protected:
 	bool canMoveLeft();
 	bool canMoveRight();
 	bool canMoveBackward();
+	bool randomTurn();
 	void turnLeft();
 	void turnRight();
 	void setHeading(const Directions::Heading heading);

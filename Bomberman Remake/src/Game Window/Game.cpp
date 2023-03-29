@@ -11,7 +11,7 @@ Game::Game() : m_map(31, 13), m_player(1, 1), m_enemy(1, 1)
 	
 	m_player_follower.follow(&m_player.getPosition());
 	m_player_follower.setSize((sf::Vector2f)m_window->getSize());
-	m_player_follower.setLimits(sf::FloatRect(sf::Vector2f(0,0), sf::Vector2f(TileMap::getSize().x * TILE_SIZE_X, TileMap::getSize().y * TILE_SIZE_Y)));
+	m_player_follower.setLimits(sf::FloatRect(sf::Vector2f(0,0), sf::Vector2f(TileMap::getSize().x * TILE_SIZE_X, TileMap::getSize().y * TILE_SIZE_Y - 4)));
 
 	m_event = sf::Event();
 	m_dt = 0;
@@ -55,9 +55,6 @@ void Game::update()
 		for (const auto bomb : m_player.getBombs())
 		{
 			m_enemy.bombCollision(bomb);
-			//sf::Vector2f offset;
-			//m_enemy.check(*bomb, offset, sf::Vector2f());
-			//m_enemy.move(offset);
 		}
 
 		TileMap::updateDestroyQueue();

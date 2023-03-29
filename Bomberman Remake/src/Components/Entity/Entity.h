@@ -4,8 +4,8 @@
 #include "../Animation/RectAnimation.h"
 #include "../TileMap/Tile/Tile.h"
 
-#define ENTITY_SIZE_X 64
-#define ENTITY_SIZE_Y 64
+#define ENTITY_SIZE_X 58
+#define ENTITY_SIZE_Y 58
 
 /* A abstract class that can be used to set up a Entity */
 class Entity : public Collidable

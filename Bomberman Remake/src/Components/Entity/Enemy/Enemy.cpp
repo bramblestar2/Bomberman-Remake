@@ -61,34 +61,13 @@ void Enemy::bombCollision(Bomb* bomb)
 	{
 		if (abs(offset.x) > 0.1 || abs(offset.y) > 0.1)
 		{
-			bool canTurnLeft = false;
-			bool canTurnRight = false;
-
-			if (canMoveRight())
-				canTurnRight = true;
-			if (canMoveLeft())
-				canTurnLeft = true;
-
-			if (canTurnLeft && canTurnRight)
+			if (!randomTurn())
 			{
-				switch (rand() % 2)
+				if (canMoveBackward())
 				{
-				case 0: //Left turn
-					turnLeft();
-					break;
-				case 1: //Right turn
 					turnRight();
-					break;
+					turnRight();
 				}
-			}
-			else if (canTurnLeft)
-				turnLeft();
-			else if (canTurnRight)
-				turnRight();
-			else if (canMoveBackward())
-			{
-				turnRight();
-				turnRight();
 			}
 
 			Entity::move(offset);
@@ -111,30 +90,7 @@ void Enemy::movementLogic()
 		/* 30% chance to turn */
 		if (random < 3)
 		{
-			bool canTurnLeft = false; 
-			bool canTurnRight = false; 
-
-			if (canMoveRight())
-				canTurnRight = true;
-			if (canMoveLeft())
-				canTurnLeft = true;
-
-			if (canTurnLeft && canTurnRight)
-			{
-				switch (rand() % 2)
-				{
-				case 0: //Left turn
-					turnLeft();
-					break;
-				case 1: //Right turn
-					turnRight();
-					break;
-				}
-			}
-			else if (canTurnLeft)
-				turnLeft();
-			else if (canTurnRight)
-				turnRight();
+			randomTurn();
 		}
 	}
 }
@@ -232,6 +188,36 @@ bool Enemy::canMoveBackward()
 	}
 
 	return false;
+}
+
+bool Enemy::randomTurn()
+{
+	bool canTurnLeft = false;
+	bool canTurnRight = false;
+
+	if (canMoveRight())
+		canTurnRight = true;
+	if (canMoveLeft())
+		canTurnLeft = true;
+
+	if (canTurnLeft && canTurnRight)
+	{
+		switch (rand() % 2)
+		{
+		case 0: //Left turn
+			turnLeft();
+			break;
+		case 1: //Right turn
+			turnRight();
+			break;
+		}
+	}
+	else if (canTurnLeft)
+		turnLeft();
+	else if (canTurnRight)
+		turnRight();
+
+	return canTurnLeft || canTurnRight;
 }
 
 void Enemy::turnLeft()

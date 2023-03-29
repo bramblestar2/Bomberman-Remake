@@ -5,8 +5,8 @@
 #include "../../Enums.h"
 #include "../../Handlers/TextureHandler/TextureHandler.h"
 
-#define TILE_SIZE_X 64
-#define TILE_SIZE_Y 64
+#define TILE_SIZE_X 58
+#define TILE_SIZE_Y 58
 
 /* A class for tiles that can have a variety of different uses */
 class Tile : public Collidable

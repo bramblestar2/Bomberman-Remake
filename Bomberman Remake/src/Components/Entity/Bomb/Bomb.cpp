@@ -204,8 +204,8 @@ std::vector<sf::Vector2f> Bomb::getEffectedTiles(const bool change_distances)
 				if (TileMap::getTile(bomb_pos.x + (i + 1), bomb_pos.y)->isDestructable())
 				{
 					explosion_positions.push_back(sf::Vector2f(bomb_pos.x + (i + 1), bomb_pos.y));
-					if (change_distances)
-						m_exploded_radius[1]++;
+					//if (change_distances)
+					//	m_exploded_radius[1]++;
 				}
 			}
 		}
@@ -224,8 +224,8 @@ std::vector<sf::Vector2f> Bomb::getEffectedTiles(const bool change_distances)
 				if (TileMap::getTile(bomb_pos.x - (i + 1), bomb_pos.y)->isDestructable())
 				{
 					explosion_positions.push_back(sf::Vector2f(bomb_pos.x - (i + 1), bomb_pos.y));
-					if (change_distances)
-						m_exploded_radius[3]++;
+					//if (change_distances)
+					//	m_exploded_radius[3]++;
 				}
 			}
 		}
@@ -244,8 +244,8 @@ std::vector<sf::Vector2f> Bomb::getEffectedTiles(const bool change_distances)
 				if (TileMap::getTile(bomb_pos.x, bomb_pos.y + (i + 1))->isDestructable())
 				{
 					explosion_positions.push_back(sf::Vector2f(bomb_pos.x, bomb_pos.y + (i + 1)));
-					if (change_distances)
-						m_exploded_radius[2]++;
+					//if (change_distances)
+					//	m_exploded_radius[2]++;
 				}
 			}
 		}
@@ -264,8 +264,8 @@ std::vector<sf::Vector2f> Bomb::getEffectedTiles(const bool change_distances)
 				if (TileMap::getTile(bomb_pos.x, bomb_pos.y - (i + 1))->isDestructable())
 				{
 					explosion_positions.push_back(sf::Vector2f(bomb_pos.x, bomb_pos.y - (i + 1)));
-					if (change_distances)
-						m_exploded_radius[0]++;
+					//if (change_distances)
+					//	m_exploded_radius[0]++;
 				}
 			}
 		}
