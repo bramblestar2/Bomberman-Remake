@@ -43,8 +43,6 @@ private:
 
 	bool m_player_on_bomb;
 
-	/* */
-
 	bool m_has_exploded;
 	bool m_explosion_ended;
 	bool m_has_timer;

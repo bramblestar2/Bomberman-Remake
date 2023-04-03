@@ -4,7 +4,7 @@
 
 Game* Game::m_instance;
 
-Game::Game() : m_map(31, 13), m_player(1, 1), m_enemy(1, 1)
+Game::Game() : m_map(31, 13), m_player(1, 1), m_enemy(1, 3)
 {
 	m_window = new sf::RenderWindow(sf::VideoMode(750, 750), "Bomberman NES", sf::Style::Close | sf::Style::Titlebar);
 	//m_window->setMouseCursorVisible(false);
@@ -55,6 +55,11 @@ void Game::update()
 		for (const auto bomb : m_player.getBombs())
 		{
 			m_enemy.bombCollision(bomb);
+		}
+
+		if (m_player.check(m_enemy))
+		{
+			m_player.setDeathState(true);
 		}
 
 		TileMap::updateDestroyQueue();
