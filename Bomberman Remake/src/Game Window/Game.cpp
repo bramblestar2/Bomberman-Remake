@@ -4,12 +4,14 @@
 
 Game* Game::m_instance;
 
-Game::Game() : m_map(31, 13), m_player(1, 1), m_enemy(1, 3)
+Game::Game() : m_map(31, 13), m_enemy(1, 3)
 {
 	m_window = new sf::RenderWindow(sf::VideoMode(750, 750), "Bomberman NES", sf::Style::Close | sf::Style::Titlebar);
 	//m_window->setMouseCursorVisible(false);
 	
-	m_player_follower.follow(&m_player.getPosition());
+	m_player = new Player(1, 1);
+
+	m_player_follower.follow(&m_player->getPosition());
 	m_player_follower.setSize((sf::Vector2f)m_window->getSize());
 	m_player_follower.setLimits(sf::FloatRect(sf::Vector2f(0,0), sf::Vector2f(TileMap::getSize().x * TILE_SIZE_X, TileMap::getSize().y * TILE_SIZE_Y - 4)));
 
@@ -22,6 +24,7 @@ Game::Game() : m_map(31, 13), m_player(1, 1), m_enemy(1, 3)
 
 Game::~Game()
 {
+	delete m_player;
 	delete m_window;
 }
 
@@ -45,21 +48,21 @@ void Game::update()
 
 		m_player_follower.update();
 
-		m_player.update(m_dt);
+		m_player->update(m_dt);
 
-		sf::Vector2f offset = m_map.collision(m_player);
-		m_player.move(offset);
+		sf::Vector2f offset = m_map.collision(*m_player);
+		m_player->move(offset);
 
 		m_enemy.update(m_dt);
 
-		for (const auto bomb : m_player.getBombs())
+		for (const auto bomb : m_player->getBombs())
 		{
 			m_enemy.bombCollision(bomb);
 		}
 
-		if (m_player.check(m_enemy))
+		if (m_player->check(m_enemy))
 		{
-			m_player.setDeathState(true);
+			m_player->setDeathState(true);
 		}
 
 		TileMap::updateDestroyQueue();
@@ -78,9 +81,19 @@ void Game::updateEvents()
 			{
 				MapGenerator::randomBrickGeneration(3);
 			}
+
+			if (m_player->isDead())
+			{
+				if (m_event.key.code == sf::Keyboard::R)
+				{
+					MapGenerator::randomBrickGeneration(3);
+					delete m_player;
+					m_player = new Player(1, 1);
+				}
+			}
 		}
 
-		m_player.updateEvents(m_event);
+		m_player->updateEvents(m_event);
 		m_enemy.updateEvents(m_event);
 	}
 }
@@ -98,7 +111,7 @@ void Game::render()
 
 	m_map.draw(*m_window, states);
 
-	m_player.draw(*m_window, states);
+	m_player->draw(*m_window, states);
 	m_enemy.draw(*m_window, states);
 
 	m_window->display();
